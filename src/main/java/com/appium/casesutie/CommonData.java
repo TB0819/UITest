@@ -10,6 +10,7 @@ public class CommonData {
 	
 	private CommonData(){
 		loadConfig();
+		loadAllFeatures();
 	}
 	
 	private void loadConfig(){
@@ -19,6 +20,11 @@ public class CommonData {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void loadAllFeatures() {
+		LoadResources fr = new LoadResources();
+		fr.loadAllFeatures(prop.getProperty("FEATURE_PATH"));
 	}
 	
 	public static CommonData getInstance(){
