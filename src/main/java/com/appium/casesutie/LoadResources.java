@@ -9,9 +9,11 @@ import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
+import com.appium.utils.LogUtil;
+
 public class LoadResources {
 	public static Map<String, Feature> allfeature = new HashMap<String, Feature>();
-	public static Map<String, TestCase> TestCases = new HashMap<String, TestCase>();
+	public static List<TestCase> TestCases = new ArrayList<TestCase>();
 	private List<String> fileList = new ArrayList<String>();
 
 	public void loadAllFeatures(String filepath) {
@@ -29,7 +31,8 @@ public class LoadResources {
 				Feature feature = (Feature) yaml.load(Util.getLocalResource(s));
 				allfeature.put(feature.getFeatureName(), feature);
 			}catch(Exception e){
-				System.out.println(s+"格式错误\n"+e.toString());
+				LogUtil.messages.add(s+"格式错误\n"+e.toString());
+				LogUtil.printLog("INFO");
 			}
 		}
 	}
@@ -47,9 +50,10 @@ public class LoadResources {
 		for (String s : arrayList) {
 			try{
 				TestCase testcase = (TestCase) yaml.load(Util.getLocalResource(s));
-				TestCases.put(testcase.getCaseName(), testcase);
+				TestCases.add(testcase);
 			}catch(Exception e){
-				System.out.println(s+"格式错误\n"+e.toString());
+				LogUtil.messages.add(s+"格式错误\n"+e.toString());
+				LogUtil.printLog("INFO");
 			}
 		}
 	}

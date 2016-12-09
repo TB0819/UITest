@@ -8,19 +8,28 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 public class LogUtil {
-	public final List<String> messages = new ArrayList<>();
+	public static final List<String> messages = new ArrayList<>();
 	
 	private LogUtil() {}
 	
-	public void printLog(String logLevel){
+	/**
+	 * 输入log信息
+	 * @param logLevel
+	 */
+	public static void printLog(String logLevel){
 		System.out.print(getLogFormatString(logLevel));
 		messages.clear();
 	}
 	
-    public String getLogFormatString(String logLevel) {
+	/**
+	 * log格式化
+	 * @param logLevel
+	 * @return
+	 */
+    private static String getLogFormatString(String logLevel) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String logResult = String.join(" ", (String[]) messages.toArray(new String[messages.size()]));
-        return String.format("%s /%s: %s\n", formatter.format(new Date()),logLevel, logResult);
+        return String.format("%s [%s] %s\n", formatter.format(new Date()),logLevel, logResult);
     }
     
     @Test
@@ -31,7 +40,7 @@ public class LogUtil {
     	messages.add("等待");
     	messages.add("20s");
     	printLog("INFO");
-    	messages.add("");
+    	messages.add(System.getProperty("user.dir") + "/target/ExtentReport.html");
     	printLog("ERROR");
     	
     }

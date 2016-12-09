@@ -1,11 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="0" passed="0">
+<testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="TmpSuite" duration-ms="5" started-at="2016-11-26T06:45:53Z" finished-at="2016-11-26T06:45:53Z">
+  <suite name="TestNG Forum" duration-ms="76327" started-at="2016-12-09T09:29:25Z" finished-at="2016-12-09T09:30:42Z">
     <groups>
     </groups>
-    <test name="TmpTest" duration-ms="5" started-at="2016-11-26T06:45:53Z" finished-at="2016-11-26T06:45:53Z">
-    </test> <!-- TmpTest -->
-  </suite> <!-- TmpSuite -->
+    <test name="TestNG Test0" duration-ms="76327" started-at="2016-12-09T09:29:25Z" finished-at="2016-12-09T09:30:42Z">
+      <class name="com.appium.casesutie.RunTestCases">
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:com.appium.casesutie.RunTestCases@18e7838]" name="beforeClass" is-config="true" duration-ms="21063" started-at="2016-12-09T17:29:25Z" finished-at="2016-12-09T17:29:46Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeClass -->
+        <test-method status="PASS" signature="startApp(java.lang.reflect.Method)[pri:0, instance:com.appium.casesutie.RunTestCases@18e7838]" name="startApp" is-config="true" duration-ms="8" started-at="2016-12-09T17:29:46Z" finished-at="2016-12-09T17:29:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.appium.casesutie.RunTestCases.runAllTestClass(com.appium.casesutie.TestCase) throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startApp -->
+        <test-method status="PASS" signature="runAllTestClass(com.appium.casesutie.TestCase)[pri:0, instance:com.appium.casesutie.RunTestCases@18e7838]" name="runAllTestClass" duration-ms="38805" started-at="2016-12-09T17:29:46Z" data-provider="loadCaseFile" finished-at="2016-12-09T17:30:25Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[com.appium.casesutie.TestCase@11099aa]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runAllTestClass -->
+        <test-method status="PASS" signature="killServer(org.testng.ITestResult)[pri:0, instance:com.appium.casesutie.RunTestCases@18e7838]" name="killServer" is-config="true" duration-ms="13948" started-at="2016-12-09T17:30:25Z" finished-at="2016-12-09T17:30:39Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=runAllTestClass status=SUCCESS method=RunTestCases.runAllTestClass(com.appium.casesutie.TestCase)[pri:0, instance:com.appium.casesutie.RunTestCases@18e7838] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- killServer -->
+        <test-method status="PASS" signature="afterClass()[pri:0, instance:com.appium.casesutie.RunTestCases@18e7838]" name="afterClass" is-config="true" duration-ms="2498" started-at="2016-12-09T17:30:39Z" finished-at="2016-12-09T17:30:42Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterClass -->
+      </class> <!-- com.appium.casesutie.RunTestCases -->
+    </test> <!-- TestNG Test0 -->
+  </suite> <!-- TestNG Forum -->
 </testng-results>

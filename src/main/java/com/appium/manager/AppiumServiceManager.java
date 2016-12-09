@@ -38,7 +38,7 @@ public class AppiumServiceManager {
 				.withAppiumJS(new File(prop.getProperty("APPIUM_JS_PATH")))
 				.withArgument(GeneralServerFlag.LOG_LEVEL, "debug")
 				.withLogFile(new File(System.getProperty("user.dir") + "/target/appiumlogs/"
-						+ UDID.replaceAll("\\W", "_") + "__" + methodName + ".txt"))
+						+ UDID.replaceAll("\\W", "_") + "__"+"3"  + ".txt"))
 				.withArgument(AndroidServerFlag.CHROME_DRIVER_PORT, Integer.toString(chromePort))
 				.withArgument(AndroidServerFlag.BOOTSTRAP_PORT_NUMBER, Integer.toString(bootstrapPort))
 				.withArgument(GeneralServerFlag.SESSION_OVERRIDE)

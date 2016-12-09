@@ -23,19 +23,19 @@ public class BaseTest extends AppiumParallel{
 	
 	@BeforeClass(alwaysRun=true) 
 	public void beforeClass() throws Exception {
-		startAppiumService(getClass().getSimpleName());
+		startAppiumService();
 		driver = createAppiumDriverInParallel();
     }
 	
 	@BeforeMethod() 
-	public void startApp(Method name) throws Exception {
+	public void startApp(Method method) throws Exception {
 		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-//		startADBLog(name.getName());
+		startADBLog(method.getName());
 	}
 	
     @AfterMethod() 
     public void killServer(ITestResult result) throws InterruptedException, IOException {
-//    	endADBLog(result);
+    	endADBLog(result);
     	driver.closeApp();
     	driver.launchApp();
     }

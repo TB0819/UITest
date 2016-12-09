@@ -1,26 +1,34 @@
 package com.appium.report.factory;
 
-import com.relevantcodes.extentreports.ExtentReports;
-
-import java.io.FileInputStream;
-import java.util.Properties;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.aventstack.extentreports.reporter.configuration.ChartLocation;
+import com.aventstack.extentreports.reporter.configuration.Theme;
 
 public class ExtentManager {
 	public static ExtentReports instance;
-	public static Properties prop = new Properties();
+	final static String filePath = System.getProperty("user.dir") + "/target/ExtentReport.html";
 
 	public synchronized static ExtentReports getInstance() {
 		if (instance == null) {
-			instance = new ExtentReports(System.getProperty("user.dir") + "/target/ExtentReport.html");
-			try {
-				prop.load(new FileInputStream("config.properties"));
-				if (System.getenv("ExtentX").equalsIgnoreCase("true")) {
-					instance.x(prop.getProperty("MONGODB_SERVER"), Integer.parseInt(prop.getProperty("MONGODB_PORT")));
-				}
-			} catch (Exception e) {
-				System.out.println("Not taking ExtendReporting");
-			}
+			instance = createInstance(filePath);
 		}
 		return instance;
 	}
+	
+    public static ExtentReports createInstance(String fileName) {
+        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(fileName);
+        htmlReporter.config().setTestViewChartLocation(ChartLocation.BOTTOM);
+        htmlReporter.config().setChartVisibilityOnOpen(true);
+        htmlReporter.config().setTheme(Theme.STANDARD);
+        htmlReporter.config().setDocumentTitle(fileName);
+        htmlReporter.config().setEncoding("utf-8");
+        htmlReporter.config().setReportName(fileName);
+        htmlReporter.setAppendExisting(true);
+        
+        instance = new ExtentReports();
+        instance.attachReporter(htmlReporter);
+        
+        return instance;
+    }
 }

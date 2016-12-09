@@ -23,5 +23,19 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/extentreports-3.0.1.jar"/>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/lib/bsh-2.0b4.jar"/>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/lib/bson-3.3.0.jar"/>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/lib/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/lib/freemarker-2.3.23.jar"/>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/lib/httpclient-4.5.2.jar"/>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/lib/httpcore-4.4.4.jar"/>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/lib/httpmime-4.5.2.jar"/>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/lib/jcommander-1.48.jar"/>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/lib/jsoup-1.9.2.jar"/>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/lib/mongodb-driver-3.3.0.jar"/>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/lib/mongodb-driver-core-3.3.0.jar"/>
+	<classpathentry kind="lib" path="D:/apache-maven-3.3.9/local_jar/extentreports-java-3.0.1/lib/testng-6.9.10.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

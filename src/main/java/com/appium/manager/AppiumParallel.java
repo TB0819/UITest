@@ -1,6 +1,8 @@
 package com.appium.manager;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import org.openqa.selenium.Platform;
@@ -9,6 +11,10 @@ import org.testng.ITestResult;
 
 import com.appium.casesutie.CommonData;
 import com.appium.devices.BackgroundLogcatAction;
+import com.appium.report.factory.ExtentManager;
+import com.appium.report.factory.ExtentTestManager;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import com.github.cosysoft.device.android.AndroidDevice;
 import com.github.cosysoft.device.android.impl.AndroidDeviceStore;
 import io.appium.java_client.AppiumDriver;
@@ -21,13 +27,20 @@ public class AppiumParallel {
 	private static final String LOGCAT_DESC = "logcat";
 	public String category = null;
 	public AndroidDriver<MobileElement> driver = null;
+	public AndroidDevice currentDevice;
 	public String mdeviceName;
 	public String mdevice_udid;
 	public String mdeviceVersion;
+	
+	public ExtentTest parent;
+	public ExtentTest child;
+	public String currentCaseName;
+	public Map<Long, ExtentTest> parentContext = new HashMap<Long, ExtentTest>();
+	
 	private AppiumServiceManager mAppiumManager = new AppiumServiceManager();
 	private BackgroundLogcatAction mlogcat = null;
 	public static Properties prop = CommonData.getInstance().prop;
-	public static ConcurrentHashMap<String, Boolean> deviceSerialNumberMapping = new ConcurrentHashMap<String, Boolean>();
+	public static ConcurrentHashMap<AndroidDevice, Boolean> deviceMapping = new ConcurrentHashMap<AndroidDevice, Boolean>();
 	public static AndroidDeviceStore deviceStore = AndroidDeviceStore.getInstance();
 
 	// 加载可用的设备
@@ -36,10 +49,9 @@ public class AppiumParallel {
 			if (deviceStore.getDevices().size() > 0) {
 				System.out.println("Adding Android devices");
 				for (AndroidDevice device : deviceStore.getDevices()) {
-					deviceSerialNumberMapping.put(device.getSerialNumber(), true);
+					deviceMapping.put(device, true);
 				}
 			}
-			System.out.println(deviceSerialNumberMapping);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Failed to initialize framework");
@@ -137,27 +149,31 @@ public class AppiumParallel {
 	 * @return
 	 * @throws Exception
 	 */
-	public synchronized void startAppiumService(String methodName) throws Exception {
-		mdevice_udid = getNextAvailableDeviceId();
+	public synchronized void startAppiumService() throws Exception {
+		currentDevice = getNextAvailableDevice();
+		mdevice_udid = currentDevice.getSerialNumber();
 		mdeviceName = getDeviceName();
 		mdeviceVersion = getDeviceVersion();
-		if (mdevice_udid == null) {
+		if (currentDevice == null) {
 			System.out.println("No devices are free to run test or Failed to run test");
 		}
 
 		if (Platform.getCurrent().is(Platform.MAC)) {
 
 		} else {
-			category = deviceStore.getDeviceBySerial(mdevice_udid).getName();
+			category = currentDevice.getName();
 		}
-
+//        ExtentTestManager.getTest().log(LogStatus.INFO, "AppiumServerLogs",
+//                "<a href=" + System.getProperty("user.dir") + "/target/appiumlogs/" + mdevice_udid
+//                    .replaceAll("\\W", "_") + "__" + methodName + ".txt" + ">Logs</a>");
+            
 		if (Platform.getCurrent().is(Platform.MAC)) {
 
 		} else {
-			mAppiumManager.appiumServerForAndroid(mdevice_udid, methodName);
+			mAppiumManager.appiumServerForAndroid(mdevice_udid, currentCaseName);
 		}
 	}
-
+	
 	/**
 	 * Close appiumservice
 	 * 
@@ -166,29 +182,30 @@ public class AppiumParallel {
 	 */
 	public synchronized void killAppiumServer() throws InterruptedException, IOException {
 		System.out.println("**************ClosingAppiumSession****************" + Thread.currentThread().getId());
+        ExtentManager.getInstance().flush();
 		mAppiumManager.destroyAppiumNode();
-		freeDevice(mdevice_udid);
+		freeDevice(currentDevice);
 	}
 
-	public static void freeDevice(String deviceId) {
-		deviceSerialNumberMapping.put(deviceId, true);
+	public static void freeDevice(AndroidDevice device) {
+		deviceMapping.put(device, true);
 	}
 
 	/**
-	 * return Next Available DeviceID
+	 * return Next Available Device
 	 * 
 	 * @return
 	 */
-	public static synchronized String getNextAvailableDeviceId() {
-		ConcurrentHashMap.KeySetView<String, Boolean> devices = deviceSerialNumberMapping.keySet();
+	public static synchronized AndroidDevice getNextAvailableDevice() {
+		ConcurrentHashMap.KeySetView<AndroidDevice, Boolean> devices = deviceMapping.keySet();
 		int i = 0;
-		for (String device : devices) {
+		for (AndroidDevice device : devices) {
 			Thread t = Thread.currentThread();
 			t.setName("Thread_" + i);
 			System.out.println("Parallel Thread is: " + t.getName()+"_"+t.getId());
 			i++;
-			if (deviceSerialNumberMapping.get(device) == true) {
-				deviceSerialNumberMapping.put(device, false);
+			if (deviceMapping.get(device) == true) {
+				deviceMapping.put(device, false);
 				return device;
 			}
 		}
@@ -208,5 +225,20 @@ public class AppiumParallel {
 	// 关闭Android adb logcat日志
 	public void endADBLog(ITestResult result) throws InterruptedException, IOException {
 		mlogcat.close();
+		if (result.getStatus() == ITestResult.SUCCESS) {
+			ExtentTestManager.getTest().log(Status.PASS, currentCaseName);
+			
+//			 "ADBLogs:: <a href=" + System.getProperty("user.dir") + "/target/adblogs/"
+//             + mdevice_udid.replaceAll("\\W", "_") + "__" + result.getMethod()
+//             .getMethodName() + ".txt" + ">AdbLogs</a>"
+		}
+		else if(result.getStatus() == ITestResult.FAILURE){
+			ExtentTestManager.getTest().log(Status.FAIL, result.getThrowable());
+		}
+		else if (result.getStatus() == ITestResult.SKIP) {
+            ExtentTestManager.getTest().log(Status.SKIP, "Test skipped");
+        }
+		
+        ExtentManager.getInstance().flush();
 	}
 }

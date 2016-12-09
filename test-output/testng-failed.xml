@@ -1,26 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite thread-count="1" verbose="2" name="Failed suite [TestNG Forum]" parallel="tests">
-  <listeners>
-    <listener class-name="com.appium.testng.listener.TestngListener"/>
-    <listener class-name="com.appium.testng.listener.RetryListener"/>
-  </listeners>
-  <test name="TestNG Test0(failed)" parallel="tests">
+  <test name="TestNG Test0" preserve-order="false">
     <classes>
-      <class name="appiumtest.appiumtest.testAppium">
-        <methods>
-          <include name="test_RKD"/>
-          <include name="afterClass"/>
-          <include name="beforeClass"/>
-        </methods>
-      </class> <!-- appiumtest.appiumtest.testAppium -->
-      <class name="com.appium.test.loginTest">
-        <methods>
-          <include name="test_demo"/>
-          <include name="startApp"/>
-          <include name="test_supplyCGD"/>
-        </methods>
-      </class> <!-- com.appium.test.loginTest -->
+      <class name="com.appium.casesutie.RunTestCases"/>
     </classes>
-  </test> <!-- TestNG Test0(failed) -->
+  </test> <!-- TestNG Test0 -->
 </suite> <!-- Failed suite [TestNG Forum] -->

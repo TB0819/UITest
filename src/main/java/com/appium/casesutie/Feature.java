@@ -7,7 +7,6 @@ public class Feature {
 	private String featureName;
 	private List<Step> steps;
 	
-	
 	public String getFeatureName() {
 		return featureName;
 	}
